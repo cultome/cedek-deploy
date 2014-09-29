@@ -11,6 +11,8 @@ export LANG=en_US.UTF-8
 
 export EDITOR=vim
 
+export RACK_ENV=production
+
 export http_proxy=http://proxy-latin.network.fedex.com:3128
 export https_proxy=http://proxy-latin.network.fedex.com:3128
 export no_proxy="localhost;127.0.0.1"
