@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "wget http://nodejs.org/dist/v0.11.13/node-v0.11.13-linux-x64.tar.gz"
   config.vm.provision "shell", inline: "tar --strip-components 1 -xzvf node-v0.11.13-linux-x64.tar.gz -C /usr/local"
   config.vm.provision "shell", inline: "curl -sSL https://get.rvm.io | bash -s -- --autolibs=read-fail --ruby"
-  config.vm.provision "shell", inline: "gem install passenger thin sinatra bundler"
+  config.vm.provision "shell", inline: "gem install thin sinatra bundler"
   config.vm.provision "shell", inline: "thin install"
   config.vm.provision "shell", inline: "cp /vagrant/provisions/thin /etc/init.d/"
   config.vm.provision "shell", inline: "/sbin/chkconfig --level 345 thin on"
@@ -24,11 +24,6 @@ Vagrant.configure("2") do |config|
   # Configuraciones
   config.vm.provision "file", source: "provisions/bowerrc", destination: "~/.bowerrc"
 
-  # REMOVER
-  config.vm.provision "shell", inline: "npm config set proxy http://proxy-latin.network.fedex.com:3128", privileged: false
-  config.vm.provision "shell", inline: "npm config set https-proxy http://proxy-latin.network.fedex.com:3128", privileged: false
-  config.vm.provision "shell", inline: "npm config set registry http://registry.npmjs.org/", privileged: false
-
   config.vm.provision "shell", inline: "cd cedek && rake init", privileged: false
   config.vm.provision "shell", inline: "systemctl enable mariadb"
   config.vm.provision "shell", inline: "systemctl start mariadb"
@@ -38,6 +33,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: "cd cedek && ./node_modules/grunt-cli/bin/grunt", privileged: false
   # instalamos y configuramos el nginx
+  config.vm.provision "shell", inline: "gem install passenger"
   config.vm.provision "shell", inline: "passenger-install-nginx-module --auto --auto-download --languages ruby,nodejs --prefix=/home/vagrant/nginx", privileged: false
   config.vm.provision "shell", inline: "cp -fr /vagrant/provisions/ssl /home/vagrant/nginx/ssl"
   config.vm.provision "file", source: "provisions/proxy.conf", destination: "~/nginx/conf/proxy.conf"
