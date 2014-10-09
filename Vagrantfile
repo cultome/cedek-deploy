@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "cd cedek && ./node_modules/grunt-cli/bin/grunt", privileged: false
   # instalamos y configuramos el nginx
   config.vm.provision "shell", inline: "gem install passenger"
-  config.vm.provision "shell", inline: "passenger-install-nginx-module --auto --auto-download --languages ruby,nodejs --prefix=/home/vagrant/nginx", privileged: false
+  config.vm.provision "shell", inline: "passenger-install-nginx-module --auto --auto-download --languages ruby,nodejs --prefix=/home/vagrant/nginx"
   config.vm.provision "shell", inline: "cp -fr /vagrant/provisions/ssl /home/vagrant/nginx/ssl"
   config.vm.provision "file", source: "provisions/proxy.conf", destination: "~/nginx/conf/proxy.conf"
   config.vm.provision "file", source: "provisions/nginx.conf", destination: "~/nginx/conf/nginx.conf"
