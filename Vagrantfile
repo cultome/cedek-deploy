@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 Vagrant.configure("2") do |config|
   config.vm.box = "chef/centos-7.0"
-  config.vm.network "forwarded_port", guest: 8080, host: 1234
+  config.vm.network "forwarded_port", guest: 415, host: 2000
 
   config.vm.provision "file", source: "provisions/bashrc", destination: "~/.bashrc"
   # librerias para desarrollo y compilacion
@@ -38,5 +38,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "cp -fr /vagrant/provisions/ssl /home/vagrant/nginx/ssl"
   config.vm.provision "shell", inline: "cp /vagrant/provisions/proxy.conf /home/vagrant/nginx/conf/proxy.conf"
   config.vm.provision "shell", inline: "cp /vagrant/provisions/nginx.conf /home/vagrant/nginx/conf/nginx.conf"
+  config.vm.provision "shell", inline: "chmod 755 /home/vagrant"
   config.vm.provision "shell", inline: "/home/vagrant/nginx/sbin/nginx", run: "always"
 end
