@@ -17,4 +17,4 @@ export RACK_ENV=production
 #export https_proxy=http://<host>:<port>
 #export no_proxy="localhost;127.0.0.1"
 
-export PATH=$HOME/.rvm/rubies/default/bin:$PATH
+export PATH=$HOME/.rvm/rubies/default/bin:/usr/local/bin:$PATH

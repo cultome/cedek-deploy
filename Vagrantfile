@@ -5,6 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 415, host: 2000
 
   config.vm.provision "file", source: "provisions/bashrc", destination: "~/.bashrc"
+  config.vm.provision "shell", inline: "cp /vagrant/provisions/bashrc /root/.bashrc"
   # librerias para desarrollo y compilacion
   config.vm.provision "shell", inline: "yum -y install gcc gcc-c++ curl-devel openssl-devel zlib-devel mariadb mariadb-server mysql-devel sqlite-devel vim vim-enhanced git svn patch libyaml-devel libffi-devel autoconf patch readline-devel automake libtool bison"
   config.vm.provision "shell", inline: "wget http://nodejs.org/dist/v0.11.13/node-v0.11.13-linux-x64.tar.gz"
@@ -23,7 +24,6 @@ Vagrant.configure("2") do |config|
   # Configuraciones
   config.vm.provision "file", source: "provisions/bowerrc", destination: "~/.bowerrc"
 
-  config.vm.provision "shell", inline: "cd cedek && rake init", privileged: false
   config.vm.provision "shell", inline: "systemctl enable mariadb"
   config.vm.provision "shell", inline: "systemctl start mariadb"
   config.vm.provision "shell", inline: "mysql -uroot < /vagrant/provisions/mysql.sql"
@@ -31,7 +31,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "systemctl enable thin"
   config.vm.provision "shell", inline: "systemctl start thin"
 
-  config.vm.provision "shell", inline: "cd cedek && ./node_modules/grunt-cli/bin/grunt", privileged: false
+  config.vm.provision "shell", inline: "npm install grunt-cli -g"
+  config.vm.provision "shell", inline: "cd cedek && rake init", privileged: false
+  config.vm.provision "shell", inline: "cd /home/vagrant/cedek && grunt"
   # instalamos y configuramos el nginx
   config.vm.provision "shell", inline: "gem install passenger"
   config.vm.provision "shell", inline: "passenger-install-nginx-module --auto --auto-download --languages ruby --prefix=/home/vagrant/nginx"
