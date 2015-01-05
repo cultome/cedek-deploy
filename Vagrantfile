@@ -28,8 +28,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "systemctl start mariadb"
   config.vm.provision "shell", inline: "mysql -uroot < /vagrant/provisions/mysql.sql"
   config.vm.provision "shell", inline: "cd cedek && rake reset", privileged: false
-  config.vm.provision "shell", inline: "systemctl enable thin"
-  config.vm.provision "shell", inline: "systemctl start thin"
+  #config.vm.provision "shell", inline: "systemctl enable thin"
+  #config.vm.provision "shell", inline: "systemctl start thin"
 
   config.vm.provision "shell", inline: "npm install grunt-cli -g"
   config.vm.provision "shell", inline: "cd cedek && rake init", privileged: false
@@ -42,4 +42,5 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "cp /vagrant/provisions/nginx.conf /home/vagrant/nginx/conf/nginx.conf"
   config.vm.provision "shell", inline: "chmod 755 /home/vagrant"
   config.vm.provision "shell", inline: "/home/vagrant/nginx/sbin/nginx", run: "always"
+  config.vm.provision "shell", inline: "cd cedek && rackup -p 8080 --daemonize", run: "always"
 end
